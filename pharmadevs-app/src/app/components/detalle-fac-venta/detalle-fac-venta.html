@@ -1,0 +1,191 @@
+<div class="container mt-4">
+  <h1>Gestión de detalle de facturas ventas</h1>
+
+  <div class="d-flex justify-content-center mb-3">
+    <button mat-raised-button color="primary" (click)="abrirModal()">
+      <mat-icon>add</mat-icon>Agregar Detalle
+    </button>
+  </div>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="filtroDetalleVenta($event)" placeholder="Buscar Detalle factura...">
+  </mat-form-field>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+      <!-- Detalles -->
+      <ng-container matColumnDef="detalles">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let dv">
+          <button mat-icon-button color="primary" (click)="abrirModalDetalles(dv)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- ID -->
+      <ng-container matColumnDef="idDetalleVenta">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let dv">{{ dv.idDetalleVenta }}</td>
+      </ng-container>
+
+      <!-- Cantidad -->
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+        <td mat-cell *matCellDef="let dv">{{ dv.cantidad }}</td>
+      </ng-container>
+
+      <!-- Precio Unitario -->
+      <ng-container matColumnDef="preciounitario">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio Unitario</th>
+        <td mat-cell *matCellDef="let dv">{{ dv.preciounitario | currency }}</td>
+      </ng-container>
+
+      <!-- IVA -->
+      <ng-container matColumnDef="iva">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
+        <td mat-cell *matCellDef="let dv">{{ dv.iva }}</td>
+      </ng-container>
+
+      <!-- Subtotal -->
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+        <td mat-cell *matCellDef="let dv">{{ dv.subtotal | currency }}</td>
+      </ng-container>
+
+      <!-- Producto -->
+      <ng-container matColumnDef="producto">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+        <td mat-cell *matCellDef="let dv">{{ nombreProducto(dv.producto) }}</td>
+      </ng-container>
+
+      <!-- Factura (VENTA) -->
+      <ng-container matColumnDef="facturaventa">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
+        <td mat-cell *matCellDef="let dv">
+          {{ Factura(dv.facturaventa) }}
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+        <td mat-cell *matCellDef="let dv">
+          <div class="d-flex gap-1">
+            <button class="btn btn-warning btn-sm me-1" (click)="abrirModal(dv)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="detalleVenta = dv; delete()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5,10,25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+<!-- Modal alta/edición DETALLE DE VENTA -->
+<ng-template #modalDetalleVenta>
+  <mat-dialog-content>
+    <h2 mat-dialog-title>{{ editar ? 'Editar detalle' : 'Agregar detalle' }}</h2>
+
+    <form #formDetalle="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" [(ngModel)]="detalleVenta.cantidad" name="cantidad" required />
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Precio Unitario</mat-label>
+            <input matInput type="number" [(ngModel)]="detalleVenta.preciounitario" name="preciounitario" required />
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>IVA</mat-label>
+            <input matInput type="number" [(ngModel)]="detalleVenta.iva" name="iva" required />
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Subtotal</mat-label>
+            <input matInput type="number" [(ngModel)]="detalleVenta.subtotal" name="subtotal" required />
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Producto</mat-label>
+            <mat-select [(ngModel)]="detalleVenta.producto" name="producto" required [compareWith]="compararProductos">
+              <mat-option *ngFor="let p of productos" [value]="p">{{ nombreProducto(p) }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6 mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Factura (venta)</mat-label>
+            <mat-select [(ngModel)]="detalleVenta.facturaventa" name="facturaventa" required [compareWith]="compararfacturas">
+              <mat-option *ngFor="let f of facturaventas" [value]="f">{{ Factura(f) }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-12 mb-2" *ngIf="detalleVenta?.facturaventa?.facventa">
+          <div class="factura-container">
+            <img
+              [src]="'http://localhost:8080/' + detalleVenta?.facturaventa?.facventa"
+              alt="Factura"
+              class="imagen-factura"
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary" (click)="guardarDetalle()" [disabled]="formDetalle.invalid">
+      {{ editar ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- Modal SOLO DETALLES -->
+<ng-template #modalDetalles>
+  <h2 mat-dialog-title>Detalles del ítem</h2>
+  <mat-dialog-content>
+    <div *ngIf="DetalleVentaSeleccionada?.facturaventa?.facventa">
+      <img
+        [src]="'http://localhost:8080/' + DetalleVentaSeleccionada?.facturaventa?.facventa"
+        alt="Factura venta"
+        style="width: 400px; margin-top: 1rem;"
+      />
+    </div>
+    <p><strong>ID: </strong>{{ DetalleVentaSeleccionada?.idDetalleVenta }}</p>
+    <p><strong>Cantidad: </strong>{{ DetalleVentaSeleccionada?.cantidad }}</p>
+    <p><strong>Precio Unitario: </strong>{{ DetalleVentaSeleccionada?.preciounitario | currency }}</p>
+    <p><strong>IVA: </strong>{{ DetalleVentaSeleccionada?.iva }}</p>
+    <p><strong>Subtotal: </strong>{{ DetalleVentaSeleccionada?.subtotal | currency }}</p>
+    <p><strong>Producto: </strong>{{ DetalleVentaSeleccionada?.producto?.nombre }}</p>
+    <p><strong>Factura: </strong>{{ DetalleVentaSeleccionada?.facturaventa?.facventa }}</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="cerrarModal()">Cerrar</button>
+  </mat-dialog-actions>
+</ng-template>
