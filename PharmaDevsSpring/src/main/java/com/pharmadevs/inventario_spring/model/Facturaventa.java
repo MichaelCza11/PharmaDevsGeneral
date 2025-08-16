@@ -30,8 +30,8 @@ public class Facturaventa {
 
     public Facturaventa(int idFacturaventa, Date fecha, String montototal, String facventa, Cliente cliente) {
         this.idFacturaventa = idFacturaventa;
-        Fecha = fecha;
-        Montototal = montototal;
+        this.Fecha = fecha;
+        this.Montototal = montototal;
         this.facventa = facventa;
         this.cliente = cliente;
     }

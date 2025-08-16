@@ -28,12 +28,12 @@ public class Bodega {
     public Bodega() {
     }
 
-    public Bodega(int idBodega, String nombrematerial, int cantidad, Date fecharecepcion) {
+    public Bodega(int idBodega, String nombrematerial, int cantidad, Date fecharecepcion, Proveedor proveedor) {
         this.idBodega = idBodega;
-        Nombrematerial = nombrematerial;
-        Cantidad = cantidad;
-        Fecharecepcion = fecharecepcion;
-        proveedor = proveedor;
+        this.Nombrematerial = nombrematerial;
+        this.Cantidad = cantidad;
+        this.Fecharecepcion = fecharecepcion;
+        this.proveedor = proveedor;
     }
 
     public int getIdBodega() {

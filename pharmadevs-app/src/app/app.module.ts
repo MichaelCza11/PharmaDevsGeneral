@@ -29,6 +29,8 @@ import { FacturaVentaComponent } from './components/factura-venta/factura-venta'
 import { FacturaCompraComponent } from './components/factura-compra/factura-compra';
 import { DetalleFacCompra } from './components/detalle-fac-compra/detalle-fac-compra';
 import { DetalleFacVentaComponent } from './components/detalle-fac-venta/detalle-fac-venta';
+import { VentasComponent } from './components/ventas/ventas';
+import { BodegaComponent } from './components/bodega/bodega';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { DetalleFacVentaComponent } from './components/detalle-fac-venta/detalle
     FacturaVentaComponent, 
     FacturaCompraComponent,
     DetalleFacVentaComponent,
-    DetalleFacCompra
+    DetalleFacCompra,
+    VentasComponent,
+    BodegaComponent
   ],
   imports: [
     BrowserModule,

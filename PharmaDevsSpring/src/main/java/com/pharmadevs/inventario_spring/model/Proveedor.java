@@ -32,11 +32,11 @@ public class Proveedor {
 
     public Proveedor(int idProveedor, String nombre, String direccion, String telefono, String email, String ruc) {
         this.idProveedor = idProveedor;
-        Nombre = nombre;
-        Direccion = direccion;
-        Telefono = telefono;
-        Email = email;
-        Ruc = ruc;
+        this.Nombre = nombre;
+        this.Direccion = direccion;
+        this.Telefono = telefono;
+        this.Email = email;
+        this.Ruc = ruc;
     }
 
     public int getIdProveedor() {

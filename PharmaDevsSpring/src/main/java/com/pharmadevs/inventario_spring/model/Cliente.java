@@ -30,11 +30,11 @@ public class Cliente {
 
     public Cliente(int idCliente, String nombre, String direccion, String telefono, String email, String ruc) {
         this.idCliente = idCliente;
-        Nombre = nombre;
-        Direccion = direccion;
-        Telefono = telefono;
-        Email = email;
-        Ruc = ruc;
+        this.Nombre = nombre;
+        this.Direccion = direccion;
+        this.Telefono = telefono;
+        this.Email = email;
+        this.Ruc = ruc;
     }
 
     public int getIdCliente() {

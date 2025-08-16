@@ -34,14 +34,14 @@ public class Detallefacturacompra {
     public Detallefacturacompra() {
     }
 
-    public Detallefacturacompra(int idDetallecompra, String cantidad, Float preciounitario, String iva, Float subtotal) {
+    public Detallefacturacompra(int idDetallecompra, String cantidad, Float preciounitario, String iva, Float subtotal, Producto producto, Facturacompra facturacompra) {
         this.idDetallecompra = idDetallecompra;
-        Cantidad = cantidad;
-        Preciounitario = preciounitario;
-        Iva = iva;
-        Subtotal = subtotal;
-        producto = producto;
-        facturacompra = facturacompra;
+        this.Cantidad = cantidad;
+        this.Preciounitario = preciounitario;
+        this.Iva = iva;
+        this.Subtotal = subtotal;
+        this.producto = producto;
+        this.facturacompra = facturacompra;
     }
 
     public int getIdDetallecompra() {

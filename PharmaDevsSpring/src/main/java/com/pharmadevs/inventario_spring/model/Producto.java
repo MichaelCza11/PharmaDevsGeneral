@@ -30,11 +30,11 @@ public class Producto {
 
     public Producto(int idProducto, String nombre, String descripcion, String categoria, String unidadMedida, Float preciobase) {
         this.idProducto = idProducto;
-        Nombre = nombre;
-        Descripcion = descripcion;
-        Categoria = categoria;
-        UnidadMedida = unidadMedida;
-        Preciobase = preciobase;
+        this.Nombre = nombre;
+        this.Descripcion = descripcion;
+        this.Categoria = categoria;
+        this.UnidadMedida = unidadMedida;
+        this.Preciobase = preciobase;
     }
 
     public int getIdProducto() {

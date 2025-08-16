@@ -31,8 +31,8 @@ public class Facturacompra {
 
     public Facturacompra(int idFacturacompra, Date fecha, String montototal, String faccompra, Proveedor proveedor) {
         this.idFacturacompra = idFacturacompra;
-        Fecha = fecha;
-        Montototal = montototal;
+        this.Fecha = fecha;
+        this.Montototal = montototal;
         this.faccompra = faccompra;
         this.proveedor = proveedor;
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { Produccion } from '../../model/produccion.model';
 import { Producto } from '../../model/producto.model';
 import { MatTableDataSource } from '@angular/material/table';
@@ -208,7 +208,5 @@ export class ProduccionComponent implements OnInit{
     form.resetForm();
     this.dialog.closeAll();
   }
- 
- 
   
 }
